@@ -1,18 +1,17 @@
 #!/bin/sh
 
-FILE="/etc/sysconfig/network-scripts/ifcfg-<%= ceph_iface %>.<%= ceph_vlan %>"
+FILE="/etc/sysconfig/network-scripts/ifcfg-<%= pub_iface %>.<%= pub_vlan %>"
 
 HOST=$(hostname | cut -d- -f3 | cut -d. -f1)
-HOST_IP="192.168.28.$HOST"
+HOST_IP="<%= pub_net %>.$HOST"
 
 rm $FILE
 touch $FILE
-echo "DEVICE=\"<%= ceph_iface  %>.<%= ceph_vlan %>\"" >> $FILE
+echo "DEVICE=\"<%= pub_iface  %>.<%= pub_vlan %>\"" >> $FILE
 echo "ONBOOT=yes" >> $FILE
 echo "BOOTPROTO=static" >> $FILE
 echo "VLAN=yes" >> $FILE
 echo "IPADDR=$HOST_IP" >> $FILE
-echo "NETMASK=255.255.255.0" >> $FILE
-echo "GATEWAY=192.168.28.1" >> $FILE
+echo "NETMASK=<%= pub_netmask %>" >> $FILE
 echo "NOZEROCONF=yes" >> $FILE
 echo "DEFROUTE=no" >> $FILE

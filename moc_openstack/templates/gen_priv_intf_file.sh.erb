@@ -1,0 +1,16 @@
+#!/bin/sh
+
+FILE="/etc/sysconfig/network-scripts/ifcfg-<%= priv_iface %>"
+
+HOST=$(hostname | cut -d- -f3 | cut -d. -f1)
+HOST_IP="<%= priv_net %>.$HOST"
+
+rm $FILE
+touch $FILE
+echo "DEVICE=\"<%= priv_iface %>\"" >> $FILE
+echo "ONBOOT=yes" >> $FILE
+echo "BOOTPROTO=static" >> $FILE
+echo "IPADDR=$HOST_IP" >> $FILE
+echo "NETMASK=<%= priv_netmask %>" >> $FILE
+echo "NOZEROCONF=yes" >> $FILE
+echo "DEFROUTE=no" >> $FILE

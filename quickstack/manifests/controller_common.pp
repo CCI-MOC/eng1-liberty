@@ -183,6 +183,14 @@ class quickstack::controller_common (
   $allow_resize_to_same_host     = $quickstack::params::allow_resize,
   $allow_migrate_to_same_host    = $quickstack::params::allow_migrate,
   $repo_server                   = $quickstack::params::repo_server,
+  $pub_iface                     = $quickstack::params::pub_iface,
+  $priv_iface                    = $quickstack::params::priv_iface,
+  $pub_vlan                      = $quickstack::params::pub_vlan,
+  $priv_vlan                     = $quickstack::params::priv_vlan,
+  $pub_netmask                   = $quickstack::params::pub_netmask,
+  $priv_netmask                  = $quickstack::params::priv_netmask,
+  $pub_net                       = $quickstack::params::pub_net,
+  $priv_net                      = $quickstack::params::priv_net,
 ) inherits quickstack::params {
 
   if str2bool_i("$use_ssl_endpoints") {
@@ -849,4 +857,24 @@ class quickstack::controller_common (
   class {'moc_openstack::suricata':
   }
 
+  # Create entries in /etc/hosts
+  class {'hosts':
+    before => Class['quickstack::amqp::server', 'quickstack::db::mysql'],
+  }
+
+  class {'moc_openstack::install_pubnet':
+    pub_iface   => $pub_iface,
+    pub_vlan    => $pub_vlan,
+    pub_netmask => $pub_netmask,
+    pub_net     => $pub_net,
+    before      => Class['hosts'],
+  }
+
+  class {'moc_openstack::install_privnet':
+    priv_iface   => $priv_iface,
+    priv_vlan    => $priv_vlan,
+    priv_netmask => $priv_netmask,
+    priv_net     => $priv_net,
+    before => Class['hosts'],
+  }
 }

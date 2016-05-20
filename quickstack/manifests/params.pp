@@ -386,5 +386,15 @@ class quickstack::params (
 
   # repo server
   $repo_server,
+
+  # interface configuration
+  $pub_iface,
+  $priv_iface,
+  $pub_vlan,
+  $priv_vlan,
+  $pub_netmask,
+  $priv_netmask,
+  $pub_net,
+  $priv_net,
 ) {
 }
