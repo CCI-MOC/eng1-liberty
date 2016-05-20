@@ -391,7 +391,6 @@ class quickstack::params (
   $pub_iface,
   $priv_iface,
   $pub_vlan,
-  $priv_vlan,
   $pub_netmask,
   $priv_netmask,
   $pub_net,

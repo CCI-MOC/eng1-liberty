@@ -107,7 +107,6 @@ class quickstack::compute_common (
   $allow_migrate_to_same_host   = $quickstack::params::allow_migrate,
   $repo_server                  = $quickstack::params::repo_server,
   $priv_iface                   = $quickstack::params::priv_iface,
-  $priv_vlan                    = $quickstack::params::priv_vlan,
   $priv_netmask                 = $quickstack::params::priv_netmask,
   $priv_net                     = $quickstack::params::priv_net,
 ) inherits quickstack::params {
@@ -441,7 +440,6 @@ class quickstack::compute_common (
 
   class {'moc_openstack::install_privnet':
     priv_iface   => $priv_iface,
-    priv_vlan    => $priv_vlan,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
     before => Class['hosts'],

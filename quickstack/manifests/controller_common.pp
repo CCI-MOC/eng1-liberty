@@ -186,7 +186,6 @@ class quickstack::controller_common (
   $pub_iface                     = $quickstack::params::pub_iface,
   $priv_iface                    = $quickstack::params::priv_iface,
   $pub_vlan                      = $quickstack::params::pub_vlan,
-  $priv_vlan                     = $quickstack::params::priv_vlan,
   $pub_netmask                   = $quickstack::params::pub_netmask,
   $priv_netmask                  = $quickstack::params::priv_netmask,
   $pub_net                       = $quickstack::params::pub_net,
@@ -872,7 +871,6 @@ class quickstack::controller_common (
 
   class {'moc_openstack::install_privnet':
     priv_iface   => $priv_iface,
-    priv_vlan    => $priv_vlan,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
     before => Class['hosts'],
