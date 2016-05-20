@@ -1,0 +1,1 @@
+class moc_openstack {}

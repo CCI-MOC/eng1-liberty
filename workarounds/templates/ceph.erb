@@ -1,0 +1,24 @@
+[global]
+mon_initial_members = <%= @ceph_nodes %> 
+mon_host = <%= @ceph_endpoints %>
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+
+[client.<%= @ceph_client %>]
+keyring = /etc/ceph/client.<%= @ceph_client %>.key
+
+
+
+
+
+
+[global]
+mon_initial_members = storage1,storage2,storage3
+mon_host = 192.168.28.11:6789,192.168.28.12:6789,192.168.28.13:6789
+auth_cluster_required = cephx
+auth_service_required = cephx
+auth_client_required = cephx
+
+[client.production-openstack]
+keyring = /etc/ceph/client.production-openstack.key
