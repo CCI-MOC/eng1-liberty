@@ -109,6 +109,8 @@ class quickstack::compute_common (
   $priv_iface                   = $quickstack::params::priv_iface,
   $priv_netmask                 = $quickstack::params::priv_netmask,
   $priv_net                     = $quickstack::params::priv_net,
+  $ceph_net                     = $quickstack::params::ceph_net,
+  $ceph_netmask                 = $quickstack::params::ceph_netmask,
 ) inherits quickstack::params {
 
   if str2bool_i("$use_ssl") {
@@ -241,6 +243,7 @@ class quickstack::compute_common (
     class { 'moc_openstack::configure_nova_ceph':
            nova_uuid     => $nova_uuid,
            ceph_key      => $ceph_key,
+           ceph_user     => $ceph_user,
     }
   } else {
     class { '::nova::compute::libvirt':
@@ -365,6 +368,8 @@ class quickstack::compute_common (
     ceph_vlan      => $ceph_vlan,
     ceph_key       => $ceph_key,
     ceph_iface     => $ceph_iface,
+    ceph_net       => $ceph_net,
+    ceph_netmask   => $ceph_netmask,
   }
 
   class { 'moc_openstack::firewall':
@@ -438,7 +443,7 @@ class quickstack::compute_common (
   class {'moc_openstack::suricata':
   }
 
-  class {'moc_openstack::install_privnet':
+  class {'moc_openstack::configure_privnet':
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,

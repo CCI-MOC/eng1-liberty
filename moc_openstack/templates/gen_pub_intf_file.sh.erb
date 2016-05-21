@@ -2,7 +2,7 @@
 
 FILE="/etc/sysconfig/network-scripts/ifcfg-<%= pub_iface %>.<%= pub_vlan %>"
 
-HOST=$(hostname | cut -d- -f3 | cut -d. -f1)
+HOST=$(hostname | cut -d- -f3 | cut -d. -f1 | sed -e 's/^[0]*//')
 HOST_IP="<%= pub_net %>.$HOST"
 
 rm $FILE

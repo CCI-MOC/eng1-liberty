@@ -395,5 +395,7 @@ class quickstack::params (
   $priv_netmask,
   $pub_net,
   $priv_net,
+  $ceph_net,
+  $ceph_netmask,
 ) {
 }

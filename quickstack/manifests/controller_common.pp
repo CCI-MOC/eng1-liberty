@@ -190,6 +190,8 @@ class quickstack::controller_common (
   $priv_netmask                  = $quickstack::params::priv_netmask,
   $pub_net                       = $quickstack::params::pub_net,
   $priv_net                      = $quickstack::params::priv_net,
+  $ceph_net                      = $quickstack::params::ceph_net,
+  $ceph_netmask                  = $quickstack::params::ceph_netmask,
 ) inherits quickstack::params {
 
   if str2bool_i("$use_ssl_endpoints") {
@@ -771,6 +773,8 @@ class quickstack::controller_common (
     ceph_iface     => $ceph_iface,
     ceph_key       => $ceph_key, 
     ceph_vlan      => $ceph_vlan,
+    ceph_net       => $ceph_net,
+    ceph_netmask   => $ceph_netmask,
 }
 
 # Ensure ruby has lastest version
@@ -861,7 +865,7 @@ class quickstack::controller_common (
     before => Class['quickstack::amqp::server', 'quickstack::db::mysql'],
   }
 
-  class {'moc_openstack::install_pubnet':
+  class {'moc_openstack::configure_pubnet':
     pub_iface   => $pub_iface,
     pub_vlan    => $pub_vlan,
     pub_netmask => $pub_netmask,
@@ -869,7 +873,7 @@ class quickstack::controller_common (
     before      => Class['hosts'],
   }
 
-  class {'moc_openstack::install_privnet':
+  class {'moc_openstack::configure_privnet':
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
