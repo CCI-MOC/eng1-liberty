@@ -388,35 +388,35 @@ class quickstack::compute_common (
   }
 
 #Customization for configuring sensu
-  class { '::sensu':
-    sensu_plugin_name     => 'sensu-plugin',
-    sensu_plugin_version  => 'installed',
-    sensu_plugin_provider => 'gem',
-    purge_config          => true,
-    rabbitmq_host         => $sensu_rabbitmq_host,
-    rabbitmq_user         => $sensu_rabbitmq_user,
-    rabbitmq_password     => $sensu_rabbitmq_password,
-    rabbitmq_vhost        => '/sensu',
-    subscriptions         => $sensu_client_subscriptions_compute,
-    client_keepalive      => $sensu_client_keepalive,
-    plugins               => [
-       "puppet:///modules/sensu/plugins/check-ip-connectivity.sh",
-       "puppet:///modules/sensu/plugins/check-mem.sh",
-       "puppet:///modules/sensu/plugins/cpu-metrics.rb",
-       "puppet:///modules/sensu/plugins/disk-usage-metrics.rb",
-       "puppet:///modules/sensu/plugins/load-metrics.rb",
-       "puppet:///modules/sensu/plugins/check-ceph.rb",
-       "puppet:///modules/sensu/plugins/check-disk-fail.rb",
-       "puppet:///modules/sensu/plugins/memory-metrics.rb",
-       "puppet:///modules/sensu/plugins/uptime-metrics.py",
-       "puppet:///modules/sensu/plugins/check_keystone-api.sh",
-       "puppet:///modules/sensu/plugins/keystone-token-metrics.rb",
-       "puppet:///modules/sensu/plugins/nova-hypervisor-metrics.py",
-       "puppet:///modules/sensu/plugins/nova-server-state-metrics.py",
-       "puppet:///modules/sensu/plugins/cpu-pcnt-usage-metrics.rb",
-       "puppet:///modules/sensu/plugins/disk-metrics.rb"
-    ]
-  }
+#  class { '::sensu':
+#    sensu_plugin_name     => 'sensu-plugin',
+#    sensu_plugin_version  => 'installed',
+#    sensu_plugin_provider => 'gem',
+#    purge_config          => true,
+#    rabbitmq_host         => $sensu_rabbitmq_host,
+#    rabbitmq_user         => $sensu_rabbitmq_user,
+#    rabbitmq_password     => $sensu_rabbitmq_password,
+#    rabbitmq_vhost        => '/sensu',
+#    subscriptions         => $sensu_client_subscriptions_compute,
+#    client_keepalive      => $sensu_client_keepalive,
+#    plugins               => [
+#       "puppet:///modules/sensu/plugins/check-ip-connectivity.sh",
+#       "puppet:///modules/sensu/plugins/check-mem.sh",
+#       "puppet:///modules/sensu/plugins/cpu-metrics.rb",
+#       "puppet:///modules/sensu/plugins/disk-usage-metrics.rb",
+#       "puppet:///modules/sensu/plugins/load-metrics.rb",
+#       "puppet:///modules/sensu/plugins/check-ceph.rb",
+#       "puppet:///modules/sensu/plugins/check-disk-fail.rb",
+#       "puppet:///modules/sensu/plugins/memory-metrics.rb",
+#       "puppet:///modules/sensu/plugins/uptime-metrics.py",
+#       "puppet:///modules/sensu/plugins/check_keystone-api.sh",
+#       "puppet:///modules/sensu/plugins/keystone-token-metrics.rb",
+#       "puppet:///modules/sensu/plugins/nova-hypervisor-metrics.py",
+#       "puppet:///modules/sensu/plugins/nova-server-state-metrics.py",
+#       "puppet:///modules/sensu/plugins/cpu-pcnt-usage-metrics.rb",
+#       "puppet:///modules/sensu/plugins/disk-metrics.rb"
+#    ]
+#  }
 
   class {'quickstack::ntp':
     servers => $ntp_local_servers,

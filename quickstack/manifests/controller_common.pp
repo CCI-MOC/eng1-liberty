@@ -789,38 +789,38 @@ class quickstack::controller_common (
   }
 
 #Customization for isntalling sensu
-  class { '::sensu':
-    sensu_plugin_name => 'sensu-plugin',
-    sensu_plugin_version => 'installed',
-    sensu_plugin_provider => 'gem',
-    purge_config => true,
-    rabbitmq_host => $sensu_rabbitmq_host,
-    rabbitmq_user => $sensu_rabbitmq_user,
-    rabbitmq_password => $sensu_rabbitmq_password,
-    rabbitmq_vhost => '/sensu',
-    subscriptions => $sensu_client_subscriptions_controller,
-    client_keepalive      => $sensu_client_keepalive,
-    plugins       => [
-       "puppet:///modules/sensu/plugins/check-ip-connectivity.sh",
-       "puppet:///modules/sensu/plugins/check-mem.sh",
-       "puppet:///modules/sensu/plugins/cpu-metrics.rb",
-       "puppet:///modules/sensu/plugins/disk-usage-metrics.rb",
-       "puppet:///modules/sensu/plugins/load-metrics.rb",
-       "puppet:///modules/sensu/plugins/ceph-osd-metrics.rb",
-       "puppet:///modules/sensu/plugins/check-ceph.rb",
-       "puppet:///modules/sensu/plugins/check-disk-fail.rb",
-       "puppet:///modules/sensu/plugins/memory-metrics.rb",
-       "puppet:///modules/sensu/plugins/uptime-metrics.py",
-       "puppet:///modules/sensu/plugins/check_keystone-api.sh",
-       "puppet:///modules/sensu/plugins/check_neutron-api.py",
-       "puppet:///modules/sensu/plugins/keystone-token-metrics.rb",
-       "puppet:///modules/sensu/plugins/neutron-agent-status.py",
-       "puppet:///modules/sensu/plugins/nova-hypervisor-metrics.py",
-       "puppet:///modules/sensu/plugins/nova-server-state-metrics.py",
-       "puppet:///modules/sensu/plugins/cpu-pcnt-usage-metrics.rb",
-       "puppet:///modules/sensu/plugins/disk-metrics.rb"
-    ]
-  }
+#  class { '::sensu':
+#    sensu_plugin_name => 'sensu-plugin',
+#    sensu_plugin_version => 'installed',
+#    sensu_plugin_provider => 'gem',
+#    purge_config => true,
+#    rabbitmq_host => $sensu_rabbitmq_host,
+#    rabbitmq_user => $sensu_rabbitmq_user,
+#    rabbitmq_password => $sensu_rabbitmq_password,
+#    rabbitmq_vhost => '/sensu',
+#    subscriptions => $sensu_client_subscriptions_controller,
+#    client_keepalive      => $sensu_client_keepalive,
+#    plugins       => [
+#       "puppet:///modules/sensu/plugins/check-ip-connectivity.sh",
+#       "puppet:///modules/sensu/plugins/check-mem.sh",
+#       "puppet:///modules/sensu/plugins/cpu-metrics.rb",
+#       "puppet:///modules/sensu/plugins/disk-usage-metrics.rb",
+#       "puppet:///modules/sensu/plugins/load-metrics.rb",
+#       "puppet:///modules/sensu/plugins/ceph-osd-metrics.rb",
+#       "puppet:///modules/sensu/plugins/check-ceph.rb",
+#       "puppet:///modules/sensu/plugins/check-disk-fail.rb",
+#       "puppet:///modules/sensu/plugins/memory-metrics.rb",
+#       "puppet:///modules/sensu/plugins/uptime-metrics.py",
+#       "puppet:///modules/sensu/plugins/check_keystone-api.sh",
+#       "puppet:///modules/sensu/plugins/check_neutron-api.py",
+#       "puppet:///modules/sensu/plugins/keystone-token-metrics.rb",
+#       "puppet:///modules/sensu/plugins/neutron-agent-status.py",
+#       "puppet:///modules/sensu/plugins/nova-hypervisor-metrics.py",
+#       "puppet:///modules/sensu/plugins/nova-server-state-metrics.py",
+#       "puppet:///modules/sensu/plugins/cpu-pcnt-usage-metrics.rb",
+#       "puppet:///modules/sensu/plugins/disk-metrics.rb"
+#    ]
+#  }
 
   class { 'moc_openstack::firewall':
     interface   => $ceph_iface,
@@ -840,6 +840,10 @@ class quickstack::controller_common (
   # Create semodule for keystone-all access to fernet keys
   class {'moc_openstack::keystone_all_semodule':}
  
+  # Create entries in /etc/hosts
+  class {'hosts':
+  }
+
   # Installs scripts for automated backups
   class {'backups':
     user           => $backups_user, 
@@ -857,14 +861,10 @@ class quickstack::controller_common (
   class {'moc_openstack::cronjob':
     repo_server => $repo_server,
     randomwait  => 3,
+    require     => Class['hosts'],
   }
 
   class {'moc_openstack::suricata':
-  }
-
-  # Create entries in /etc/hosts
-  class {'hosts':
-    before => Class['quickstack::amqp::server', 'quickstack::db::mysql'],
   }
 
   class {'moc_openstack::configure_pubnet':
