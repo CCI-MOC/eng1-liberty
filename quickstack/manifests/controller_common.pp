@@ -841,27 +841,27 @@ class quickstack::controller_common (
   class {'moc_openstack::keystone_all_semodule':}
  
   # Create entries in /etc/hosts
-  class {'hosts':
-  }
+#  class {'hosts':
+#  }
 
   # Installs scripts for automated backups
-  class {'backups':
-    user           => $backups_user, 
-    script_src     => $backups_script_src,
-    script_local   => $backups_script_local,
-    backups_dir    => $backups_dir,
-    log_file       => $backups_log,
-    ssh_key        => $backups_ssh_key,
-    sudoers_d      => $backups_sudoers_d,
-    cron_email     => $backups_email,
-    cron_hour      => $backups_hour,
-    cron_min       => $backups_min,
-  }
+#  class {'backups':
+#    user           => $backups_user, 
+#    script_src     => $backups_script_src,
+#    script_local   => $backups_script_local,
+#    backups_dir    => $backups_dir,
+#    log_file       => $backups_log,
+#    ssh_key        => $backups_ssh_key,
+#    sudoers_d      => $backups_sudoers_d,
+#    cron_email     => $backups_email,
+#    cron_hour      => $backups_hour,
+#    cron_min       => $backups_min,
+#  }
 
   class {'moc_openstack::cronjob':
     repo_server => $repo_server,
     randomwait  => 3,
-    require     => Class['hosts'],
+    #require     => Class['hosts'],
   }
 
   class {'moc_openstack::suricata':
@@ -872,13 +872,13 @@ class quickstack::controller_common (
     pub_vlan    => $pub_vlan,
     pub_netmask => $pub_netmask,
     pub_net     => $pub_net,
-    before      => Class['hosts'],
+    #before      => Class['hosts'],
   }
 
   class {'moc_openstack::configure_privnet':
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
-    before => Class['hosts'],
+    #before => Class['hosts'],
   }
 }
