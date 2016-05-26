@@ -423,18 +423,18 @@ class quickstack::compute_common (
   }
 
   # Installs scripts for automated backups
-  class {'backups':
-    user           => $backups_user,
-    script_src     => $backups_script_src,
-    script_local   => $backups_script_local,
-    backups_dir    => $backups_dir,
-    log_file       => $backups_log,
-    ssh_key        => $backups_ssh_key,
-    sudoers_d	   => $backups_sudoers_d,
-    cron_email     => $backups_email,
-    cron_hour      => $backups_hour,
-    cron_min       => $backups_min, 
-  }
+#  class {'backups':
+#    user           => $backups_user,
+#    script_src     => $backups_script_src,
+#    script_local   => $backups_script_local,
+#    backups_dir    => $backups_dir,
+#    log_file       => $backups_log,
+#    ssh_key        => $backups_ssh_key,
+#    sudoers_d	   => $backups_sudoers_d,
+#    cron_email     => $backups_email,
+#    cron_hour      => $backups_hour,
+#    cron_min       => $backups_min, 
+#  }
 
   class {'moc_openstack::cronjob':
     repo_server => $repo_server,

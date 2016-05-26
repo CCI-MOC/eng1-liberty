@@ -2,7 +2,7 @@
 class quickstack::neutron::compute (
   $agent_type                   = 'ovs',
   $auth_host                    = $quickstack::params::controller_pub_host,
-  $ceilometer                   = 'true',
+  $ceilometer                   = 'false',
   $ceilometer_metering_secret   = $quickstack::params::ceilometer_metering_secret,
   $ceilometer_user_password     = $quickstack::params::ceilometer_user_password,
   $manage_ceph_conf             = true,
