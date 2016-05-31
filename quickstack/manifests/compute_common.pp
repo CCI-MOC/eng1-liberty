@@ -236,6 +236,7 @@ class quickstack::compute_common (
       libvirt_inject_partition => -2,
       libvirt_inject_password  => $libvirt_inject_password,
       libvirt_disk_cachemodes  => ['"network=writeback"'],
+      migration_support        => true,
     }
 
     Package['nova-common'] ->
