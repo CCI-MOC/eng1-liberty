@@ -66,6 +66,7 @@ class quickstack::compute_common (
   $amqp_ssl                     = $quickstack::params::amqp_ssl,
   $horizon_ssl                  = $quickstack::params::horizon_ssl,
   $verbose                      = $quickstack::params::verbose,
+  $keystonerc                   = true,
   $vnc_keymap                   = 'en-us',
   $vncproxy_host                = undef,
   $glance_priv_url              = $quickstack::params::glance_priv_url,
@@ -95,12 +96,12 @@ class quickstack::compute_common (
   $ntp_local_servers            = $quickstack::params::ntp_local_servers,
   $backups_user                 = $quickstack::params::backups_user,
   $backups_script_src           = $quickstack::params::backups_script_compute,
-  $backups_script_local		    = $quickstack::params::backups_script_local_name,
+  $backups_script_local         = $quickstack::params::backups_script_local_name,
   $backups_dir                  = $quickstack::params::backups_directory,
   $backups_log                  = $quickstack::params::backups_log,
   $backups_email                = $quickstack::params::backups_email,
   $backups_ssh_key              = $quickstack::params::backups_ssh_key,
-  $backups_sudoers_d		    = $quickstack::params::backups_sudoers_d,
+  $backups_sudoers_d            = $quickstack::params::backups_sudoers_d,
   $backups_hour                 = $quickstack::params::backups_local_hour,
   $backups_min                  = $quickstack::params::backups_local_min, 
   $allow_resize_to_same_host    = $quickstack::params::allow_resize,
@@ -111,6 +112,8 @@ class quickstack::compute_common (
   $priv_net                     = $quickstack::params::priv_net,
   $ceph_net                     = $quickstack::params::ceph_net,
   $ceph_netmask                 = $quickstack::params::ceph_netmask,
+  $admin_password               = $quickstack::params::admin_password,
+  $controller_admin_host        = $quickstack::params::controller_admin_host,
 ) inherits quickstack::params {
 
   if str2bool_i("$use_ssl") {
@@ -449,5 +452,13 @@ class quickstack::compute_common (
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
     before => Class['hosts'],
+  }
+
+  if str2bool_i("$keystonerc") {
+    class { 'quickstack::admin_client':
+      admin_password        => $admin_password,
+      controller_admin_host => $controller_admin_host,
+      auth_protocol         => $auth_protocol,
+    }
   }
 }
