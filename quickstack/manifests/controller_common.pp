@@ -190,7 +190,7 @@ class quickstack::controller_common (
   $pub_vlan                      = $quickstack::params::pub_vlan,
   $pub_netmask                   = $quickstack::params::pub_netmask,
   $priv_netmask                  = $quickstack::params::priv_netmask,
-  $pub_net                       = $quickstack::params::pub_net,
+  $pub_ip                        = $quickstack::params::pub_ip,
   $priv_net                      = $quickstack::params::priv_net,
   $ceph_net                      = $quickstack::params::ceph_net,
   $ceph_netmask                  = $quickstack::params::ceph_netmask,
@@ -870,8 +870,8 @@ class quickstack::controller_common (
   class {'moc_openstack::configure_pubnet':
     pub_iface   => $pub_iface,
     pub_vlan    => $pub_vlan,
+    pub_ip      => $pub_ip,
     pub_netmask => $pub_netmask,
-    pub_net     => $pub_net,
     #before      => Class['hosts'],
   }
 

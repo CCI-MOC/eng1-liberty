@@ -1,4 +1,4 @@
-class moc_openstack::configure_pubnet($pub_iface, $pub_vlan, $pub_net, $pub_netmask) {
+class moc_openstack::configure_pubnet($pub_iface, $pub_vlan, $pub_ip, $pub_netmask) {
   file { "/tmp/gen_pub_intf_file.sh":
     ensure => present,
     owner => root,
