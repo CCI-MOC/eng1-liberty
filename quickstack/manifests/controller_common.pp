@@ -299,7 +299,6 @@ class quickstack::controller_common (
     nova_db_password     => $nova_db_password,
     cinder_db_password   => $cinder_db_password,
     neutron_db_password  => $neutron_db_password,
-
     # MySQL
     mysql_bind_address     => '0.0.0.0',
     mysql_account_security => true,
@@ -788,6 +787,22 @@ class quickstack::controller_common (
     ensure => latest,
   }
 
+  package { "lsof":
+    ensure => latest,
+  }
+
+  package { "rsync":
+    ensure => latest,
+  }
+
+  package { "psmisc":
+    ensure => latest,
+  }
+
+  package { "NetworkManager":
+    ensure => present,
+  }
+
 #Customization for isntalling sensu
 #  class { '::sensu':
 #    sensu_plugin_name => 'sensu-plugin',
@@ -880,5 +895,15 @@ class quickstack::controller_common (
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
     #before => Class['hosts'],
+  }
+
+
+  if hiera('moc::clusterdeployment') == 'true' {
+    class {'::galera::server':
+      mysql_root_password => $mysql_root_password,
+      require => Class["moc_openstack::ha"],
+    }
+    class {'moc_openstack::ha':
+    }
   }
 }

@@ -123,9 +123,9 @@ class quickstack::compute_common (
   }
 
   # Create entries in /etc/hosts
-  class {'hosts':}
+#  class {'hosts':}
 
-  class {'quickstack::openstack_common': }
+#  class {'quickstack::openstack_common': }
 
   # Temporary fix for glanceclient bug: 1244291
   class {'moc_openstack::ssl::temp_glance_fix':
@@ -451,7 +451,7 @@ class quickstack::compute_common (
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
-    before => Class['hosts'],
+#    before => Class['hosts'],
   }
 
   if str2bool_i("$keystonerc") {
