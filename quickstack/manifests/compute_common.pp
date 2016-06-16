@@ -123,9 +123,9 @@ class quickstack::compute_common (
   }
 
   # Create entries in /etc/hosts
-#  class {'hosts':}
+  class {'hosts':}
 
-#  class {'quickstack::openstack_common': }
+  class {'quickstack::openstack_common': }
 
   # Temporary fix for glanceclient bug: 1244291
   class {'moc_openstack::ssl::temp_glance_fix':
