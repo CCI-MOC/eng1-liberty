@@ -451,7 +451,7 @@ class quickstack::compute_common (
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,
-#    before => Class['hosts'],
+    before => Class['hosts'],
   }
 
   if str2bool_i("$keystonerc") {
