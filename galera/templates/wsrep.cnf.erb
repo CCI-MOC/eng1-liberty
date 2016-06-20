@@ -44,7 +44,8 @@ wsrep_provider=<%= @wsrep_provider %>
 wsrep_provider_options="<%= @wsrep_provider_options.join '; ' %>"
 
 # Logical cluster name. Should be the same for all nodes.
-wsrep_cluster_name="<%= @wsrep_cluster_name %>"
+wsrep_cluster_name=<%= @wsrep_cluster_name %>
+wsrep_cluster_address=<%= @wsrep_cluster_address %>
 
 # Human-readable node name (non-unique). Hostname by default.
 #wsrep_node_name=
@@ -131,3 +132,4 @@ wsrep_sst_auth=<%= @wsrep_sst_username %>:<%= @wsrep_sst_password %>
 # wsrep_protocol_version=
 
 skip-name-resolve=1
+
