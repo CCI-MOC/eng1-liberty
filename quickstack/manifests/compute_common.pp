@@ -83,8 +83,6 @@ class quickstack::compute_common (
   $ceph_user                    = $quickstack::params::ceph_user,
   $nova_uuid                    = $quickstack::params::nova_uuid,
   $rbd_key                      = $quickstack::params::rbd_key,
-  $ceph_iface                   = $quickstack::params::ceph_iface,
-  $ceph_iface                   = $quickstack::params::ceph_iface,
   $ceph_vlan                    = $quickstack::params::ceph_vlan,
   $sensu_rabbitmq_host          = $quickstack::params::sensu_rabbitmq_host,
   $sensu_rabbitmq_user          = $quickstack::params::sensu_rabbitmq_user,
@@ -107,7 +105,15 @@ class quickstack::compute_common (
   $allow_resize_to_same_host    = $quickstack::params::allow_resize,
   $allow_migrate_to_same_host   = $quickstack::params::allow_migrate,
   $repo_server                  = $quickstack::params::repo_server,
-  $priv_iface                   = $quickstack::params::priv_iface,
+  $lenovo_pub_iface             = $quickstack::params::lenovo_pub_iface,
+  $lenovo_priv_iface            = $quickstack::params::lenovo_priv_iface,
+  $lenovo_ceph_iface            = $quickstack::params::lenovo_ceph_iface,
+  $quanta_pub_iface             = $quickstack::params::quanta_pub_iface,
+  $quanta_priv_iface            = $quickstack::params::quanta_priv_iface,
+  $quanta_ceph_iface            = $quickstack::params::quanta_ceph_iface,
+  $default_pub_iface            = $quickstack::params::default_pub_iface,
+  $default_priv_iface           = $quickstack::params::default_priv_iface,
+  $default_ceph_iface           = $quickstack::params::default_ceph_iface,
   $priv_netmask                 = $quickstack::params::priv_netmask,
   $priv_net                     = $quickstack::params::priv_net,
   $ceph_net                     = $quickstack::params::ceph_net,
@@ -125,6 +131,22 @@ class quickstack::compute_common (
   # Create entries in /etc/hosts
   class {'hosts':}
 
+  if $::productname == 'QSSC-S99' {
+    $pub_iface  = $quanta_pub_iface
+    $priv_iface = $quanta_priv_iface
+    $ceph_iface = $quanta_ceph_iface
+  }
+  elsif 'System x3550 M5' in $::productname {
+    $pub_iface  = $lenovo_pub_iface
+    $priv_iface = $lenovo_priv_iface
+    $ceph_iface = $lenovo_ceph_iface
+  }
+  else {
+    $pub_iface  = $default_pub_iface
+    $priv_iface = $default_priv_iface
+    $ceph_iface = $default_ceph_iface
+  }
+ 
   class {'quickstack::openstack_common': }
 
   # Temporary fix for glanceclient bug: 1244291
@@ -447,7 +469,7 @@ class quickstack::compute_common (
   class {'moc_openstack::suricata':
   }
 
-  class {'moc_openstack::configure_privnet':
+ class {'moc_openstack::configure_privnet':
     priv_iface   => $priv_iface,
     priv_netmask => $priv_netmask,
     priv_net     => $priv_net,

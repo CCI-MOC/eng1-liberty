@@ -185,8 +185,15 @@ class quickstack::controller_common (
   $allow_resize_to_same_host     = $quickstack::params::allow_resize,
   $allow_migrate_to_same_host    = $quickstack::params::allow_migrate,
   $repo_server                   = $quickstack::params::repo_server,
-  $pub_iface                     = $quickstack::params::pub_iface,
-  $priv_iface                    = $quickstack::params::priv_iface,
+  $lenovo_pub_iface              = $quickstack::params::lenovo_pub_iface,
+  $lenovo_priv_iface             = $quickstack::params::lenovo_priv_iface,
+  $lenovo_ceph_iface             = $quickstack::params::lenovo_ceph_iface,
+  $quanta_pub_iface              = $quickstack::params::quanta_pub_iface,
+  $quanta_priv_iface             = $quickstack::params::quanta_priv_iface,
+  $quanta_ceph_iface             = $quickstack::params::quanta_ceph_iface,
+  $default_pub_iface             = $quickstack::params::default_pub_iface,
+  $default_priv_iface            = $quickstack::params::default_priv_iface,
+  $default_ceph_iface            = $quickstack::params::default_ceph_iface,
   $pub_vlan                      = $quickstack::params::pub_vlan,
   $pub_netmask                   = $quickstack::params::pub_netmask,
   $priv_netmask                  = $quickstack::params::priv_netmask,
@@ -200,6 +207,22 @@ class quickstack::controller_common (
     $auth_protocol = 'https'
   } else {
     $auth_protocol = 'http'
+  }
+
+  if $::productname == 'QSSC-S99' {
+    $pub_iface  = $quanta_pub_iface
+    $priv_iface = $quanta_priv_iface
+    $ceph_iface = $quanta_ceph_iface
+  }
+  elsif 'System x3550 M5' in $::productname {
+    $pub_iface  = $lenovo_pub_iface
+    $priv_iface = $lenovo_priv_iface
+    $ceph_iface = $lenovo_ceph_iface
+  }
+  else {
+    $pub_iface  = $default_pub_iface
+    $priv_iface = $default_priv_iface
+    $ceph_iface = $default_ceph_iface
   }
 
   class {'quickstack::openstack_common': }

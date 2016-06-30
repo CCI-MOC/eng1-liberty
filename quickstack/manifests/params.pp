@@ -32,8 +32,6 @@ class quickstack::params (
   $ceph_user,
   $nova_uuid,
   $ceph_key,
-  $ceph_iface,
-  $ceph_vlan,
   
   # Keystone Endpoints
   # Kilo keystone now needs fully quallified urls
@@ -390,14 +388,22 @@ class quickstack::params (
   $repo_server,
 
   # interface configuration
-  $pub_iface,
-  $priv_iface,
+  $lenovo_pub_iface,
+  $lenovo_priv_iface,
+  $lenovo_ceph_iface,
+  $quanta_pub_iface,
+  $quanta_priv_iface,
+  $quanta_ceph_iface,
+  $default_pub_iface,
+  $default_priv_iface,
+  $default_ceph_iface,
   $pub_vlan,
   $pub_ip,
   $pub_netmask,
   $priv_netmask,
   $priv_net,
   $ceph_net,
+  $ceph_vlan,
   $ceph_netmask,
 ) {
 }
