@@ -416,6 +416,14 @@ class quickstack::neutron::controller (
     }
   }
 
+  if hiera('moc::clusterdeployment') == 'true' {
+    neutron_config {
+      'DEFAULT/allow_automatic_l3agent_failover': value => 'True',
+      'DEFAULT/dhcp_agents_per_network': value => 2,
+      'DEFAULT/l3_ha': value => 'True',
+    }
+  }
+
   class {'quickstack::neutron::plugins::neutron_config':
     neutron_conf_additional_params => $neutron_conf_additional_params,
   }
