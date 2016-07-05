@@ -185,6 +185,16 @@ class quickstack::neutron::controller (
   $ovs_l2_population             = 'true',
 ) inherits quickstack::params {
 
+  if hiera('moc::clusterdeployment') == 'true' {
+    $l3_ha                            = 'True'
+    $dhcp_agents_per_network          = '2'
+    $allow_automatic_l3agent_failover = 'True'
+  } else {
+    $l3_ha                            = 'False'
+    $dhcp_agents_per_network          = '1'
+    $allow_automatic_l3agent_failover = 'False'
+  }
+
   if str2bool_i("$use_ssl") {
     $auth_protocol = 'https'
   } else {
@@ -350,6 +360,7 @@ class quickstack::neutron::controller (
     cert_file             => $cert_file,
     key_file              => $key_file,
     ca_file               => $ca_file,
+    dhcp_agents_per_network => $dhcp_agents_per_network,
   }
   ->
   class { '::nova::network::neutron':
@@ -381,12 +392,12 @@ class quickstack::neutron::controller (
   }
 
   class { '::neutron::server':
-    auth_uri            => $auth_uri,
-    identity_uri        => $identity_uri,
-    auth_password       => $neutron_user_password,
-    #database_connection => $sql_connection,
-    #sql_connection     => false,
-  }
+    auth_uri                         => $auth_uri,
+    identity_uri                     => $identity_uri,
+    auth_password                    => $neutron_user_password,
+    l3_ha                            => $l3_ha,
+    allow_automatic_l3agent_failover => $allow_automatic_l3agent_failover,
+  } 
 
   if $neutron_core_plugin == 'neutron.plugins.ml2.plugin.Ml2Plugin' {
 
@@ -416,13 +427,6 @@ class quickstack::neutron::controller (
     }
   }
 
-  if hiera('moc::clusterdeployment') == 'true' {
-    neutron_config {
-      'DEFAULT/allow_automatic_l3agent_failover': value => 'True',
-      'DEFAULT/dhcp_agents_per_network': value => 2,
-      'DEFAULT/l3_ha': value => 'True',
-    }
-  }
 
   class {'quickstack::neutron::plugins::neutron_config':
     neutron_conf_additional_params => $neutron_conf_additional_params,
