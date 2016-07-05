@@ -9,6 +9,7 @@ class moc_openstack::configure_privnet($priv_iface, $priv_net, $priv_netmask) {
   exec{"Creating private interface":
     require => File["/tmp/gen_priv_intf_file.sh"],
     command => "/bin/bash /tmp/gen_priv_intf_file.sh;ifup ${priv_iface};",
-    onlyif => "/usr/bin/test ! -f /etc/sysconfig/network-scripts/ifcfg-${priv_iface}",
+    before => Class[neutron::agents::ml2::ovs],
+#    onlyif => "/usr/bin/test ! -f /etc/sysconfig/network-scripts/ifcfg-${priv_iface}",
   }
 }
