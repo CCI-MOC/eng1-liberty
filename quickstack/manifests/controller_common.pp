@@ -809,7 +809,7 @@ class quickstack::controller_common (
   package { "rubygems":
     ensure => latest,
   }
-
+#Other packages needed
   package { "lsof":
     ensure => latest,
   }
@@ -824,6 +824,10 @@ class quickstack::controller_common (
 
   package { "NetworkManager":
     ensure => present,
+  }
+
+  package { "yum-utils":
+    ensure => latest,
   }
 
 #Customization for isntalling sensu
