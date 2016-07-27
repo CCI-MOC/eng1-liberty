@@ -90,16 +90,16 @@ class quickstack::neutron::compute (
 ) inherits quickstack::params {
 
   if $::productname == 'QSSC-S99' {
-      $local_ip      = find_ip("$ovs_tunnel_network","$quanta_priv_iface",""),
-      $private_iface = $quanta_priv_iface,
+      $local_ip      = find_ip("$ovs_tunnel_network","$quanta_priv_iface","")
+      $private_iface = $quanta_priv_iface
   }
   elsif 'System x3550 M5' in $::productname {
-      $local_ip      = find_ip("$ovs_tunnel_network","$lenovo_priv_iface",""),
-      $private_iface = $lenovo_priv_iface,
+      $local_ip      = find_ip("$ovs_tunnel_network","$lenovo_priv_iface","")
+      $private_iface = $lenovo_priv_iface
   }
   else {
-      $local_ip      = find_ip("$ovs_tunnel_network","$default_priv_iface",""),
-      $private_iface = $default_priv_iface,
+      $local_ip      = find_ip("$ovs_tunnel_network","$default_priv_iface","")
+      $private_iface = $default_priv_iface
   }
 
   if str2bool_i("$use_ssl") {
