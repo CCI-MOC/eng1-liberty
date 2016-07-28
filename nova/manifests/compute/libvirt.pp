@@ -83,6 +83,7 @@ class nova::compute::libvirt (
   $vncserver_listen                           = '127.0.0.1',
   $migration_support                          = false,
   $libvirt_cpu_mode                           = false,
+  $libvirt_cpu_model                          = false,
   $libvirt_disk_cachemodes                    = [],
   $libvirt_inject_password                    = false,
   $libvirt_inject_key                         = false,
@@ -157,6 +158,7 @@ class nova::compute::libvirt (
     'DEFAULT/vncserver_listen': value => $vncserver_listen;
     'libvirt/virt_type':        value => $libvirt_virt_type;
     'libvirt/cpu_mode':         value => $libvirt_cpu_mode_real;
+    'libvirt/cpu_model':        value => $libvirt_cpu_model;
     'libvirt/inject_password':  value => $libvirt_inject_password;
     'libvirt/inject_key':       value => $libvirt_inject_key;
     'libvirt/inject_partition': value => $libvirt_inject_partition;
