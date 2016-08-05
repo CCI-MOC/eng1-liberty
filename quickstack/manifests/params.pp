@@ -405,5 +405,18 @@ class quickstack::params (
   $ceph_net,
   $ceph_vlan,
   $ceph_netmask,
+
+  # Sahara
+  $heat_key,
+  $heat_cert,
+  $sahara_key,
+  $sahara_cert,
+  $sahara_enabled,
+  $sahara_password,
+  $sahara_db_password,
+  $sahara_debug,
+  $heat_domain_password,
+  $sahara_plugins,
+  $sahara_manage_policy,
 ) {
 }
