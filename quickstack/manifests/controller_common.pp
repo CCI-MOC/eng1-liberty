@@ -201,6 +201,8 @@ class quickstack::controller_common (
   $priv_net                      = $quickstack::params::priv_net,
   $ceph_net                      = $quickstack::params::ceph_net,
   $ceph_netmask                  = $quickstack::params::ceph_netmask,
+  $sahara_enabled                = $quickstack::params::sahara_enabled,
+  $sahara_db_password            = $quickstack::params::sahara_db_password,
 ) inherits quickstack::params {
 
   if str2bool_i("$use_ssl_endpoints") {
@@ -322,6 +324,7 @@ class quickstack::controller_common (
     nova_db_password     => $nova_db_password,
     cinder_db_password   => $cinder_db_password,
     neutron_db_password  => $neutron_db_password,
+    sahara_db_password   => $sahara_db_password,
     # MySQL
     mysql_bind_address     => '0.0.0.0',
     mysql_account_security => true,
@@ -726,10 +729,16 @@ class quickstack::controller_common (
   }
 
   class {'memcached':}
+  
+  if str2bool_i($sahara_enabled) {
+    $dport_list = ['80', '443', '5000', '35357', '8080', '8773', '8774', '8775', '8776', '8777', '9292', '9696', '6080', '8386']
+  } else {
+    $dport_list = ['80', '443', '5000', '35357', '8080', '8773', '8774', '8775', '8776', '8777', '9292', '9696', '6080']
+  }
 
   firewall { '001 controller incoming':
     proto    => 'tcp',
-    dport    => ['80', '443', '5000', '35357', '8080', '8773', '8774', '8775', '8776', '8777', '9292', '9696', '6080'],
+    dport    => $dport_list,
     action   => 'accept',
   }
 
@@ -932,5 +941,9 @@ class quickstack::controller_common (
     }
     class {'moc_openstack::ha':
     }
+  }
+
+  if str2bool_i($sahara_enabled) {
+    class {'quickstack::sahara': }
   }
 }
