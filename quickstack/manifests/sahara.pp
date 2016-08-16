@@ -216,6 +216,20 @@ class quickstack::sahara (
     after   => "                'data-jobtype-java': _\u0028\"Choose libraries\"\u0029,"
   }
 
+  file_line { 'mr_26':
+    notify => Service['openstack-sahara-all'],
+    path    => '/usr/lib/python2.7/site-packages/sahara/service/edp/oozie/workflow_creator/workflow_factory.py',
+    line    => "            'plugins/vanilla/v2_7_1/resources/mapred-default.xml')",
+    match   => '.*(mapred-default).*'
+  }
+
+  file_line { 'hive_26':
+    notify => Service['openstack-sahara-all'],
+    path    => '/usr/lib/python2.7/site-packages/sahara/service/edp/oozie/workflow_creator/workflow_factory.py',
+    line    => "            'plugins/vanilla/v2_7_1/resources/hive-default.xml')",
+    match   => '.*(hive-default).*'
+  }
+
   #file_line { 'disable_floating':
   #  notify  => Service['httpd'], # only restarts if a file changes
   #  path    => '/etc/openstack-dashboard/local_settings',
