@@ -236,10 +236,10 @@ class quickstack::sahara (
   #  line    => 'SAHARA_AUTO_IP_ALLOCATION_ENABLED=True'
   #}
 
-  file_line { 'keystone_dns':
+  file_line { 'disable_etc_hosts':
     notify => Service['openstack-sahara-all'], # only restarts if change
     path   => '/usr/lib/python2.7/site-packages/sahara/utils/cluster.py',
-    line   => "    for service in [\"object-store\"]:",
+    line   => "    for service in []:",
     match  => "(    for service in).*"
   }
 
