@@ -417,6 +417,10 @@ class quickstack::compute_common (
     ensure => latest,
   }
 
+  package { "openstack-utils":
+    ensure => latest,
+  }
+
 #Customization for configuring sensu
 #  class { '::sensu':
 #    sensu_plugin_name     => 'sensu-plugin',
