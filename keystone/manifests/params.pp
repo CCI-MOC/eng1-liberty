@@ -27,7 +27,7 @@ class keystone::params {
     }
     'RedHat': {
       $package_name                 = 'openstack-keystone'
-      $service_name                 = 'httpd'
+      $service_name                 = 'openstack-keystone'
       $keystone_wsgi_script_path    = '/var/www/cgi-bin/keystone'
       $python_memcache_package_name = 'python-memcached'
       $service_provider             = undef
