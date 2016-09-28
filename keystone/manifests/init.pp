@@ -917,5 +917,13 @@ class keystone(
         'fernet_tokens/max_active_keys':   ensure => absent;
     }
   }
+  file { '/etc/httpd/conf.d/wsgi-keystone.conf':
+    notify  => Service['httpd'],
+    mode    => '0644',
+    owner   => 'root',
+    group   => 'root',
+    require => Package['httpd'],
+    source => 'puppet:///modules/keystone/wsgi-keystone.conf',
+  }
 
 }
