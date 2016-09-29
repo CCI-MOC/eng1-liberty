@@ -710,7 +710,7 @@ class quickstack::controller_common (
 
   file {'/etc/httpd/conf.d/rootredirect.conf':
     ensure  => present,
-    content => 'RedirectMatch ^/$ /dashboard/',
+    content => 'RedirectMatch ^[a-zA-Z]/$ /dashboard/',
     notify  => File['/etc/httpd/conf.d/openstack-dashboard.conf'],
   }
 
