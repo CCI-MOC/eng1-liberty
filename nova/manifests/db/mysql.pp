@@ -63,5 +63,16 @@ class nova::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
+  $dbname = $dbname +'_api'
+  ::openstacklib::db::mysql { 'nova_api':
+    user          => $user,
+    password_hash => mysql_password($password),
+    dbname        => $dbname,
+    host          => $host,
+    charset       => $charset,
+    collate       => $collate,
+    allowed_hosts => $allowed_hosts,
+  }
+
   ::Openstacklib::Db::Mysql['nova'] ~> Exec<| title == 'nova-db-sync' |>
 }

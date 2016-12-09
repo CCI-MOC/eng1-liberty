@@ -213,6 +213,7 @@ class nova::api(
 
   nova_config {
     'DEFAULT/enabled_apis':          value => $enabled_apis;
+    'DEFAULT/use_neutron':           value => true;
     'DEFAULT/volume_api_class':      value => $volume_api_class;
     'DEFAULT/ec2_listen':            value => $api_bind_address;
     'DEFAULT/osapi_compute_listen':  value => $api_bind_address;
@@ -243,7 +244,8 @@ class nova::api(
   } else {
     $auth_uri_real = "${auth_protocol}://${auth_host}:5000/"
   }
-  nova_config { 'keystone_authtoken/auth_uri': value => $auth_uri_real; }
+#  nova_config { 'keystone_authtoken/auth_uri': value => $auth_uri_real; }
+  nova_config { 'keystone_authtoken/auth_uri': ensure => absent; }
 
   if $identity_uri {
     nova_config { 'keystone_authtoken/identity_uri': value => $identity_uri; }
@@ -350,7 +352,7 @@ class nova::api(
     Package<| title == $::nova::params::common_package_name |> ~> Exec['nova-db-sync']
 
     exec { 'nova-db-sync':
-      command     => '/usr/bin/nova-manage db sync',
+      command     => '/usr/bin/nova-manage db sync ; /usr/bin/nova-manage api_db sync',
       refreshonly => true,
       subscribe   => Exec['post-nova_config'],
     }
