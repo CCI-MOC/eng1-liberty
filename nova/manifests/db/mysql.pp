@@ -38,6 +38,8 @@
 # [*mysql_module*]
 #   (optional) Deprecated. Does nothing.
 #
+
+
 class nova::db::mysql(
   $password,
   $dbname        = 'nova',
@@ -53,18 +55,17 @@ class nova::db::mysql(
     warning('The mysql_module parameter is deprecated. The latest 2.x mysql module will be used.')
   }
 
-  ::openstacklib::db::mysql { 'nova':
-    user          => $user,
+  ::openstacklib::db::mysql { 'nova_api':
+    user          => "${user}_api",
     password_hash => mysql_password($password),
-    dbname        => $dbname,
+    dbname        => "${dbname}_api",
     host          => $host,
     charset       => $charset,
     collate       => $collate,
     allowed_hosts => $allowed_hosts,
   }
 
-  $dbname = $dbname +'_api'
-  ::openstacklib::db::mysql { 'nova_api':
+  ::openstacklib::db::mysql { 'nova':
     user          => $user,
     password_hash => mysql_password($password),
     dbname        => $dbname,

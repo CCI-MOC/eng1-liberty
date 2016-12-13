@@ -245,13 +245,14 @@ class nova::api(
     $auth_uri_real = "${auth_protocol}://${auth_host}:5000/"
   }
 #  nova_config { 'keystone_authtoken/auth_uri': value => $auth_uri_real; }
-  nova_config { 'keystone_authtoken/auth_uri': ensure => absent; }
+#  nova_config { 'keystone_authtoken/auth_uri': ensure => absent; }
 
-  if $identity_uri {
-    nova_config { 'keystone_authtoken/identity_uri': value => $identity_uri; }
-  } else {
+#  if $identity_uri {
+#    nova_config { 'keystone_authtoken/identity_uri': value => $identity_uri; }
+#  } else {
+#    nova_config { 'keystone_authtoken/identity_uri': ensure => absent; }
+#  }
     nova_config { 'keystone_authtoken/identity_uri': ensure => absent; }
-  }
 
   if $auth_version {
     nova_config { 'keystone_authtoken/auth_version': value => $auth_version; }
@@ -305,7 +306,10 @@ class nova::api(
   nova_config {
     'keystone_authtoken/admin_tenant_name': value => $admin_tenant_name;
     'keystone_authtoken/admin_user':        value => $admin_user;
+    'keystone_authtoken/auth_url':          value => hiera('quickstack::params::auth_url');
+    'keystone_authtoken/auth_uri':          value => hiera('quickstack::params::auth_uri');
     'keystone_authtoken/admin_password':    value => $admin_password, secret => true;
+    'keystone_authtoken/auth_type':         value => 'password';
   }
 
   if $keystone_ec2_url {
