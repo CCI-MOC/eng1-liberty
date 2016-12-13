@@ -158,7 +158,7 @@ class nova::api(
   $admin_user            = 'nova',
   $api_bind_address      = '0.0.0.0',
   $metadata_listen       = '0.0.0.0',
-  $enabled_apis          = 'ec2,osapi_compute,metadata',
+  $enabled_apis          = 'osapi_compute,metadata',
   $keystone_ec2_url      = false,
   $volume_api_class      = 'nova.volume.cinder.API',
   $use_forwarded_for     = false,
@@ -247,12 +247,12 @@ class nova::api(
 #  nova_config { 'keystone_authtoken/auth_uri': value => $auth_uri_real; }
 #  nova_config { 'keystone_authtoken/auth_uri': ensure => absent; }
 
-#  if $identity_uri {
-#    nova_config { 'keystone_authtoken/identity_uri': value => $identity_uri; }
-#  } else {
-#    nova_config { 'keystone_authtoken/identity_uri': ensure => absent; }
-#  }
+  if $identity_uri {
+    nova_config { 'keystone_authtoken/identity_uri': value => $identity_uri; }
+  } else {
     nova_config { 'keystone_authtoken/identity_uri': ensure => absent; }
+  }
+#    nova_config { 'keystone_authtoken/identity_uri': ensure => absent; }
 
   if $auth_version {
     nova_config { 'keystone_authtoken/auth_version': value => $auth_version; }
@@ -304,12 +304,14 @@ class nova::api(
   }
 
   nova_config {
-    'keystone_authtoken/admin_tenant_name': value => $admin_tenant_name;
-    'keystone_authtoken/admin_user':        value => $admin_user;
-    'keystone_authtoken/auth_url':          value => hiera('quickstack::params::auth_url');
-    'keystone_authtoken/auth_uri':          value => hiera('quickstack::params::auth_uri');
-    'keystone_authtoken/admin_password':    value => $admin_password, secret => true;
-    'keystone_authtoken/auth_type':         value => 'password';
+    'keystone_authtoken/admin_tenant_name': value  => $admin_tenant_name;
+    'keystone_authtoken/admin_user':        value  => $admin_user;
+#   'keystone_authtoken/auth_url':          value  => hiera('quickstack::params::auth_url');
+    'keystone_authtoken/auth_url':          ensure => absent;
+    'keystone_authtoken/auth_uri':          value  => hiera('quickstack::params::auth_uri');
+    'keystone_authtoken/admin_password':    value  => $admin_password, secret => true;
+#   'keystone_authtoken/auth_type':         value  => 'password';
+    'keystone_authtoken/auth_type':         ensure => absent;
   }
 
   if $keystone_ec2_url {

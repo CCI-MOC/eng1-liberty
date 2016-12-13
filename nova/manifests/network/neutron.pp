@@ -121,7 +121,8 @@ class nova::network::neutron (
     'DEFAULT/security_group_api':      value  => $security_group_api;
     'DEFAULT/vif_plugging_is_fatal':   value  => $vif_plugging_is_fatal;
     'DEFAULT/vif_plugging_timeout':    value  => $vif_plugging_timeout;
-    'neutron/auth_strategy':           value  => $neutron_auth_strategy;
+#   'neutron/auth_strategy':           value  => $neutron_auth_strategy;
+    'neutron/auth_strategy':           ensure => absent;
     'neutron/url':                     value  => $neutron_url;
     'neutron/timeout':                 value  => $neutron_url_timeout;
     'neutron/admin_tenant_name':       ensure => absent;
@@ -133,10 +134,10 @@ class nova::network::neutron (
     'neutron/admin_password':          ensure => absent;
     'neutron/password':                value  => $neutron_admin_password, secret => true;
     'neutron/admin_auth_url':          ensure => absent;
-    'neutron/auth_url':                value  => $aurl;
+    'neutron/auth_url':                value  => $aurlb;
     'neutron/auth_plugin':             value  => 'password';
-    'neutron/project_domain_name':     value  => 'Default';
-    'neutron/user_domain_name':        value  => 'Default';
+    'neutron/project_domain_name':     value  => 'default';
+    'neutron/user_domain_name':        value  => 'default';
     'neutron/project_name':            value  => 'services';
     'neutron/ovs_bridge':              value  => $neutron_ovs_bridge;
     'neutron/extension_sync_interval': value  => $neutron_extension_sync_interval;
