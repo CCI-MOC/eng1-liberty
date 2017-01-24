@@ -313,6 +313,7 @@ class neutron::server (
     'database/min_pool_size':                   value => $database_min_pool_size;
     'database/max_pool_size':                   value => $database_max_pool_size;
     'database/max_overflow':                    value => $database_max_overflow;
+    'DEFAULT/global_physnet_mtu':               value => 9050;
   }
 
   if $state_path {
