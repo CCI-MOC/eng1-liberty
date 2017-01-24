@@ -493,4 +493,17 @@ class quickstack::compute_common (
   }
 
   class {'moc_openstack::nova_resize':}
+
+package { 'qemu-kvm-common-rhev':
+  ensure => present,
+} ->
+   service { 'ksm':
+     ensure => running,
+     enable => true,
+   } ->
+   service { 'ksmtuned':
+     ensure => running,
+     enable => true,
+   }
+
 }
